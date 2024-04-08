@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="1.1">
+
+    <!-- Elemento Raíz -->
+    <xsd:element name="Movies">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Year" type="tYear"/>
+                <xsd:element name="Movie" type="tMovie" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+    <!-- Elemento Year -->
+    <xsd:simpleType name="tYear">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="1900" />
+            <xsd:maxInclusive value="2021" />
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Elemento Movie -->
+    <xsd:complexType name="tMovie" mixed="true">
+        <xsd:sequence>
+            <xsd:element name="Title" type="tTitle"/>
+            <xsd:element name="Duration" type="tDuration" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="Genre" type="tGenre" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="Cast" type="tCast" minOccurs="0" maxOccurs="unbounded">
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="langs" type="tLangs" use="optional"/>
+    </xsd:complexType>
+
+    <!-- Elemento Title -->
+    <xsd:simpleType name="tTitle">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Elemento Duration -->
+    <xsd:simpleType name="tDuration">
+        <xsd:restriction base="xsd:integer">
+            <xsd:minInclusive value="60"/>
+            <xsd:maxInclusive value="300"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Elemento Genre -->
+    <xsd:simpleType name="tGenre">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Comedy"/>
+            <xsd:enumeration value="Drama"/>
+            <xsd:enumeration value="Action"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Elemento Cast -->
+    <xsd:complexType name="tCast">
+        <xsd:sequence>
+            <xsd:element name="Name" type="tName"/>
+            <xsd:element name="Role" type="tRole"/>
+            <xsd:choice>
+                <xsd:element name="Phone" type="tPhone"/>
+                <xsd:element name="Email" type="tEmail"/>
+            </xsd:choice>
+            <xsd:element name="MML" type="xsd:anyURI" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="tId" use="required"/>
+    </xsd:complexType>
+
+    <!--<[a-zA-Z]{3}[0-9]{3}> -->
+
+    <!-- Elemento Name -->
+    <xsd:simpleType name="tName">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Elemento Role -->
+    <xsd:simpleType name="tRole">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="Main|Supporting|Extra"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Elemento Phone -->
+    <xsd:simpleType name="tPhone">
+        <xsd:restriction base="xsd:integer">
+            <xsd:pattern value="[0-9]{9}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Elemento Email -->
+    <xsd:simpleType name="tEmail">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[\w]+@[\w]+\.[a-zA-Z]{2,4}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Atributo Id -->
+    <xsd:simpleType name="tId">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="[a-zA-Z]{3}[0-9]{3}"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <!-- Atributo Langs -->
+    <xsd:simpleType name="tLangs">
+        <xsd:restriction base="xsd:string">
+            <xsd:whiteSpace value="preserve"/>
+            <xsd:pattern value="[a-zA-Z][a-zA-Z]([ ][a-zA-Z][a-zA-Z])*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>
